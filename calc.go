@@ -24,6 +24,42 @@ func isValidOperator(operator string) bool {
 	return false
 }
 
+func isStrRomanNumber(str string) bool {
+	for _, letter := range str {
+		_, exists := romanNumerals[string(letter)]
+
+		if !exists {
+			return false
+		}
+	}
+
+	return true
+}
+
+func romanToArab(str string) int {
+	stack := []int{}
+	result := 0
+
+	for _, letter := range str {
+		romanValue, _ := romanNumerals[string(letter)]
+		stack = append(stack, romanValue)
+
+		if len(stack) <= 1 {
+			result += romanValue
+			continue
+		}
+
+		if len(stack) > 1 && romanValue == stack[len(stack)-2] || romanValue < stack[len(stack)-2] {
+			result = result + romanValue
+		} else {
+			result = romanValue - result
+		}
+
+	}
+
+	return result
+}
+
 func getExpressionValues() (int, string, int) {
 	reader := bufio.NewReader(os.Stdin)
 
@@ -47,25 +83,33 @@ func getExpressionValues() (int, string, int) {
 		panic("Оператор не найден")
 	}
 
-	num1, num1Err := strconv.Atoi(input[:operatorIndex])
+	num1 := input[:operatorIndex]
+	num2 := input[operatorIndex+1:]
+	operator := string(input[operatorIndex])
+
+	if isStrRomanNumber(num1) && isStrRomanNumber(num2) {
+		num1 := romanToArab(num1)
+		num2 := romanToArab(num2)
+		return num1, operator, num2
+	}
+
+	num1int, num1Err := strconv.Atoi(num1)
 	if num1Err != nil {
 		panic(num1Err)
 	}
-	if num1 > 10 {
+	if num1int > 10 {
 		panic("num1 > 10!!")
 	}
 
-	num2, num2Err := strconv.Atoi(input[operatorIndex:])
+	num2int, num2Err := strconv.Atoi(num2)
 	if num2Err != nil {
 		panic(num2Err)
 	}
-	if num2 > 10 {
+	if num2int > 10 {
 		panic("num2 > 10!!")
 	}
 
-	operator := string(input[operatorIndex])
-
-	return num1, operator, num2
+	return num1int, operator, num2int
 }
 
 func calculator() int {
@@ -87,5 +131,6 @@ func calculator() int {
 }
 
 func main() {
+	// нужно сделать проверку на ввод XXX или IIII
 	fmt.Println(calculator())
 }
