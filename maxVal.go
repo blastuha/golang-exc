@@ -15,7 +15,7 @@ func bubleSorting(array []int) []int {
 				// решение через параллельное присваивание
 				array[j+1], array[j] = array[j], array[j+1]
 				// решение через временную переменную
-				// temp := array[j+1
+				// temp := array[j+1]
 				//array[j+1] = array[j]
 				//array[j] = temp
 
