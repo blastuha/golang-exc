@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"os"
 	"slices"
+	"strconv"
 	"strings"
 )
 
 var operatorSlice = []string{"+", "-", "*", "/"}
 
-func getValuesFromInput() {
+// getValuesFromInput: возвращает 2 значения + оператор
+func getValuesFromInput() (string, string, string) {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Введите выражение:")
 
@@ -25,11 +27,27 @@ func getValuesFromInput() {
 		if slices.Contains(operatorSlice, string(value)) {
 			firstValue = noSpaceLine[:index]
 			secondValue = noSpaceLine[index+1:]
-			fmt.Println("noSpaceLine[index]", noSpaceLine[index])
+			operator = string(noSpaceLine[index])
 		}
 	}
 
-	fmt.Println("firstValue, secondValue, operator", firstValue, secondValue, operator)
+	_, err := strconv.Atoi(firstValue)
+	if err == nil {
+		panic("First value is a number")
+	}
+
+	if len(firstValue) > 10 || len(secondValue) > 10 {
+		panic("Длина одного из значений > 10")
+	}
+
+	return firstValue, secondValue, operator
+}
+
+func calculate(firstValue, secondValue, operator string) {
+	switch operator {
+	case "+":
+
+	}
 
 }
 
