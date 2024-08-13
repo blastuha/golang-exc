@@ -58,16 +58,41 @@ func calculate(firstValue, secondValue, operator string) string {
 	if operator == "+" {
 		return firstValue + secondValue
 	}
-	// сложение с числом
+	// вычитание строк
 	if operator == "-" {
-		return firstValue + secondValue
+		return firstValue
 	}
 
 	return ""
 
 }
 
+// 1. Проверяем циклом является ли подстрока частью строки1. Проходимся циклом по каждой букве 1 строки до конца длины подстроки. И сравниваем буквы, пока не найдем совпадение.
+// 2. Если нашли подстроку, то создаем новую строку без нее. Иначе возвращаем просто строку.
+// 3. Условие firstStrLen-secondStrLen гарантирует, что цикл j не выйдет за пределы. Когда мы ищем подстроку, то максимальный i должен быть началом secondStr, иначе выйдет за рамки.
+
+func stringSubtraction(firstStr, secondStr string) string {
+	firstStrLen := len(firstStr)
+	secondStrLen := len(secondStr)
+
+	isMatch := true
+
+	for i := 0; i < firstStrLen-secondStrLen; i++ {
+		for j := 0; j < secondStrLen; j++ {
+			if firstStr[i+j] != secondStr[j] {
+				isMatch = false
+				fmt.Println(string(firstStr[j]), string(secondStr[j]))
+				fmt.Println(isMatch)
+			}
+		}
+	}
+
+	return ""
+}
+
 func main() {
 	//fmt.Println(getValuesFromInput())
-	fmt.Println(calculate(getValuesFromInput()))
+	//fmt.Println(calculate(getValuesFromInput()))
+	//fmt.Println(stringSubtraction("world", "wo"))
+	fmt.Println(stringSubtraction("Hi World!", "World!"))
 }
