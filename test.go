@@ -35,6 +35,37 @@ func getValuesFromInput() (string, string, string) {
 	return firstValue, secondValue, operator
 }
 
+// 1. Проверяем циклом является ли подстрока частью строки1. Проходимся циклом по каждой букве 1 строки до конца длины подстроки. И сравниваем буквы, пока не найдем совпадение.
+// 2. Если нашли подстроку, то создаем новую строку без нее. Иначе возвращаем просто строку.
+// 3. Условие firstStrLen-secondStrLen гарантирует, что цикл j не выйдет за пределы. Когда мы ищем подстроку, то максимальный i должен быть началом secondStr, иначе выйдет за рамки.
+// 4. Условием firstStr[i+j] смещаем поиск подстроки по i циклу
+// 5. Условием firstStr[i+j] != secondStr[j] сверяем каждую букву строки и подстроки. Если есть несовпадение, то ставим false + скипаем круг цикла i словом break
+
+func stringSubtraction(firstStr, secondStr string) string {
+	firstStrLen := len(firstStr)
+	secondStrLen := len(secondStr)
+
+	for i := 0; i <= firstStrLen-secondStrLen; i++ {
+		isMatch := true
+
+		for j := 0; j < secondStrLen; j++ {
+			if firstStr[i+j] != secondStr[j] {
+				isMatch = false
+				break
+			}
+		}
+
+		if isMatch {
+			startIndex := i
+			endIndex := secondStrLen + i // длина второй строки + i == оставшаяся часть
+			fmt.Println("==", firstStr[:startIndex] == "Hi ")
+			return firstStr[:startIndex] + firstStr[endIndex:]
+		}
+	}
+
+	return firstStr
+}
+
 func calculate(firstValue, secondValue, operator string) string {
 	// проверка firstValue на число
 	_, err1 := strconv.Atoi(firstValue)
@@ -60,39 +91,21 @@ func calculate(firstValue, secondValue, operator string) string {
 	}
 	// вычитание строк
 	if operator == "-" {
-		return firstValue
-	}
-
-	return ""
-
-}
-
-// 1. Проверяем циклом является ли подстрока частью строки1. Проходимся циклом по каждой букве 1 строки до конца длины подстроки. И сравниваем буквы, пока не найдем совпадение.
-// 2. Если нашли подстроку, то создаем новую строку без нее. Иначе возвращаем просто строку.
-// 3. Условие firstStrLen-secondStrLen гарантирует, что цикл j не выйдет за пределы. Когда мы ищем подстроку, то максимальный i должен быть началом secondStr, иначе выйдет за рамки.
-
-func stringSubtraction(firstStr, secondStr string) string {
-	firstStrLen := len(firstStr)
-	secondStrLen := len(secondStr)
-
-	isMatch := true
-
-	for i := 0; i < firstStrLen-secondStrLen; i++ {
-		for j := 0; j < secondStrLen; j++ {
-			if firstStr[i+j] != secondStr[j] {
-				isMatch = false
-				fmt.Println(string(firstStr[j]), string(secondStr[j]))
-				fmt.Println(isMatch)
-			}
+		if err2 == nil {
+			panic("Второе значение - это число")
 		}
+
+		return stringSubtraction(firstValue, secondValue)
 	}
 
 	return ""
+
 }
 
 func main() {
 	//fmt.Println(getValuesFromInput())
-	//fmt.Println(calculate(getValuesFromInput()))
+	fmt.Println(calculate(getValuesFromInput()))
+
 	//fmt.Println(stringSubtraction("world", "wo"))
-	fmt.Println(stringSubtraction("Hi World!", "World!"))
+	//fmt.Println(stringSubtraction("Hi World qwe!", "World"))
 }
