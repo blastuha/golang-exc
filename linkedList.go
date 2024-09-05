@@ -16,6 +16,7 @@ func addToStart(number int, head *LinkedList) *LinkedList {
 	// 1. принимаем голову в аргументах
 	// 2. создаем новый узел, чей next ссылается на эту голову
 	// 3. тем самым мы создаем новую голову, которая ссылается на старую голову
+	// 4. возвращаем новую голову
 	var newNode *LinkedList = &LinkedList{
 		value: number,
 		next:  head,
@@ -43,7 +44,9 @@ func addToEnd(number int, head *LinkedList) *LinkedList {
 
 	current := head
 	// Пока current.next != nil, мы в цикле присваиваем новое значение current, пока не дойдем до последнего элемента
+
 	for current.next != nil {
+		// Итерация возможна, так как мы постоянно обновляем current через условие ниже
 		current = current.next
 	}
 	// Теперь current указывает на последний элемент, добавляем новый узел в конец списка
