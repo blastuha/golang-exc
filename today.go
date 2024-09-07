@@ -6,18 +6,40 @@ type LinkedNode struct {
 }
 
 func addToFront(head **LinkedNode, value int) {
-	// Создаем новый узел
+	// Ты разыменовываешь двойной указатель **LinkedNode один раз, чтобы получить саму переменную linkedHead, которая имеет тип *LinkedNode. То есть *head — это содержимое переменной linkedHead, а оно изначально равно nil (список пуст).
+
 	newNode := &LinkedNode{
 		value: value,
-		next:  *head, // newNode.next сохраняет старую ссылку на голову списка (она не изменится строчкой ниже); здесь мы сохраняем АДРЕС старой головы списка.
+		next:  *head, // разыменовываем один раз, чтобы получить указатель на linkedHead
 	}
-	// Затем мы присваиваем newNode в *head. Таким образом, мы изменяем указатель на первый узел так, чтобы он теперь указывал на newNode.
-	*head = newNode
-	// присваивает переменной linkedHead новое значение — это новый узел newNode.
+	*head = newNode // обновляем указатель на новый узел
+}
+
+func addToEnd2(head **LinkedNode, value int) {
+	// 1. создаем новый узел
+	newNode := &LinkedNode{
+		value: value,
+		next:  nil,
+	}
+
+	// 2. Если список пуст (head указывает на nil), новый узел становится первым элементом
+	if *head == nil {
+		*head = newNode
+		return
+	}
+
+	// 3. Ищем последний узел, чей next равен nil
+	current := *head
+	for current.next != nil {
+		current = current.next
+	}
+
+	// 4. Добавляем новый узел в конец списка
+	current.next = newNode
 }
 
 func main() {
-	var linkedHead *LinkedNode
+	var linkedHead *LinkedNode = nil
 	addToFront(&linkedHead, 1)
 
 }
