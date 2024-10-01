@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type LinkedNode struct {
 	value int
 	next  *LinkedNode
@@ -38,8 +40,18 @@ func addToEnd2(head **LinkedNode, value int) {
 	current.next = newNode
 }
 
+func printList2(head *LinkedNode) {
+	current := head
+
+	for current != nil {
+		fmt.Println("current", current.value)
+		current = current.next
+	}
+}
+
 func main() {
 	var linkedHead *LinkedNode = nil
 	addToFront(&linkedHead, 1)
-
+	addToFront(&linkedHead, 2)
+	printList2(linkedHead)
 }
